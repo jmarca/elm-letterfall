@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Elm letterfall</title>
+        <link rel="stylesheet" href="css/base.css" />
+
+    </head>
+
+    <body>
+        <!-- We'll render everything inside this div. -->
+        <div id="content">
+            <div id="app"></div>
+        </div>
+
+        <!-- Import our compiled Elm code -->
+        <script src="js/letterfall.js"></script>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <!-- Run our Elm app! -->
+        <script>
+         var app =
+             // Note: if your Elm module is named "MyThing.Root" you
+             // would call "Elm.MyThing.Root.embed(node)" instead.
+             Elm.Letterfall.embed(document.getElementById("app"));
+
+         app.ports.d3Update.subscribe(function(letters) {
+             update(letters)
+             return null
+         })
+         // right now, lifted directly from update pattern III
+         function update(data){
+             console.log(data)
+             var t = d3.transition()
+                       .duration(750);
+             var g = d3.select("svg g")
+             // JOIN new data with old elements.
+             var text = g.selectAll("text")
+                         .data(data, function(d) { return d; });
+
+             // EXIT old elements not present in new data.
+             text.exit()
+                 .attr("class", "exit")
+                 .transition(t)
+                 .attr("y", 60)
+                 .style("fill-opacity", 1e-6)
+                 .remove();
+
+             // UPDATE old elements present in new data.
+             text.attr("class", "update")
+                 .attr("y", 0)
+                 .style("fill-opacity", 1)
+                 .transition(t)
+                 .attr("x", function(d, i) { return i * 24; });
+
+             // ENTER new elements present in new data.
+             text.enter().append("text")
+                 .attr("class", "enter")
+                 .attr("dy", ".35em")
+                 .attr("y", -60)
+                 .attr("x", function(d, i) { return i * 24; })
+                 .style("fill-opacity", 1e-6)
+                 .text(function(d) { return d; })
+                 .transition(t)
+                 .attr("y", 0)
+                 .style("fill-opacity", 1);
+             return null
+         }
+
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "elm-letterfall",
+  "version": "1.0.0",
+  "description": "the d3 general update pattern III, in elm",
+  "main": "letterfall.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James E. Marca",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "elm-webpack-loader": "^3.0.6"
+  },
+  "devDependencies": {
+    "d3": "^4.2.5",
+    "rollup": "^0.36.0",
+    "uglify-js": "^2.7.3"
+  }
+}
